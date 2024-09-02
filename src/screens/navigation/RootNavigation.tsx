@@ -6,13 +6,20 @@ import AppNavigation from "./AppNavigation";
 import AuthNavigation from "./AuthNavigation";
 import TabNavigation from "./TabNavigation";
 
+const Stack = createStackNavigator();
 const RootNavigation = () => {
-  const Stack = createStackNavigator();
   const [session, setSession] = useState<boolean>(false);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animationEnabled: true,
+          gestureDirection: "horizontal",
+          gestureEnabled: true,
+        }}
+      >
         {session ? (
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         ) : (

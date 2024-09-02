@@ -1,12 +1,26 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Pressable } from "react-native";
+import React from "react";
 
-const ButtonOutline = () => {
-  return (
-    <View>
-      <Text>ButtonOutline</Text>
-    </View>
-  )
+interface ButtonOutlineProps {
+  title: string;
+  action?: () => void;
+  children?: React.ReactNode;
 }
 
-export default ButtonOutline
+const ButtonOutline: React.FC<ButtonOutlineProps> = ({
+  title,
+  action,
+  children,
+}: ButtonOutlineProps) => {
+  return (
+    <Pressable
+      className="border-2 border-neutral-400 rounded-lg justify-center items-center py-3 flex-row space-x-2"
+      onPress={action}
+    >
+      {children && <View>{children}</View>}
+      <Text className="text-neutral-500 text-lg">{title}</Text>
+    </Pressable>
+  );
+};
+
+export default ButtonOutline;

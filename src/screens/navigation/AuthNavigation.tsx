@@ -1,12 +1,27 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import LoginScreen from "../auth/LoginScreen";
+import RegisterScreen from "../auth/RegisterScreen";
+import SplachScreen from "../auth/SplachScreen";
+import WelcomeScreen from "../auth/WelcomeScreen";
+const Stack = createStackNavigator();
 
 const AuthNavigation = () => {
   return (
-    <View className='flex-1 items-center justify-center bg-blue-500'> 
-      <Text>AuthNavigation</Text>
-    </View>
-  )
-}
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animationEnabled: true,
+        gestureDirection: "horizontal",
+        gestureEnabled: true,
+      }}
+    >
+      <Stack.Screen name="Splach" component={SplachScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+    </Stack.Navigator>
+  );
+};
 
-export default AuthNavigation
+export default AuthNavigation;
