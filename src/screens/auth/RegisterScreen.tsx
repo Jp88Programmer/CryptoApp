@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import Animated, { FadeInRight } from "react-native-reanimated";
@@ -13,6 +14,7 @@ import Breaker from "@/src/components/Breaker";
 import ButtonOutline from "@/src/components/ButtonOutline";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { signUpWithEmail } from "@/supabaseHelper";
 
 const { width, height } = Dimensions.get("window");
 const RegisterScreen = () => {
@@ -23,7 +25,28 @@ const RegisterScreen = () => {
   const { navigate: navigateAuth }: NavigationProp<AuthNavigationType> =
     useNavigation();
 
-  const handleSignUp = () => {};
+  const handleSignUp = async () => {
+    setIsLoading(true);
+    console.log("🚀 ~ handleSignUp ~ email:", email,password)
+
+    const {
+      data: { session },
+      error,
+    } = await signUpWithEmail(email, password);
+
+    if (!session) {
+      Alert.alert(
+        "Registered successfully. Please check your inbox for verfication"
+      );
+      navigateAuth("Login");
+    }
+
+    if (error) {
+      Alert.alert("something went wrong!");
+    }
+
+    setIsLoading(false);
+  };
   return (
     <View className="flex-1">
       {isLoading && (

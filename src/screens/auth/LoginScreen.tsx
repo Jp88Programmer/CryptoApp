@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import Animated, { FadeInRight } from "react-native-reanimated";
@@ -13,6 +14,8 @@ import Breaker from "@/src/components/Breaker";
 import ButtonOutline from "@/src/components/ButtonOutline";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { signInWithEmail } from "@/supabaseHelper";
+import { useUserStore } from "@/store/useUserStore";
 
 const { width, height } = Dimensions.get("window");
 const LoginScreen = () => {
@@ -23,7 +26,32 @@ const LoginScreen = () => {
   const { navigate: navigateAuth }: NavigationProp<AuthNavigationType> =
     useNavigation();
 
-  const handleLogin = () => {};
+  const { setSession, setUser } = useUserStore();
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+
+    try {
+      const {
+        data: { session, user },
+        error,
+      } = await signInWithEmail(email, password);
+
+      if (error) {
+        Alert.alert(error.message);
+      }
+
+      if (session && user) {
+        setSession(session);
+        setUser(user);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      Alert.alert("Something went wrong!");
+    }
+  };
   return (
     <View className="flex-1">
       {isLoading && (
