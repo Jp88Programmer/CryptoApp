@@ -21,7 +21,7 @@ const RootNavigation = () => {
           gestureEnabled: true,
         }}
       >
-        {session ? (
+        {true ? (
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         ) : (
           <Stack.Screen name="AuthNavigation" component={AuthNavigation} />
