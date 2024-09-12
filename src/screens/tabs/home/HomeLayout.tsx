@@ -7,6 +7,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useUserStore } from "@/store/useUserStore";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useQuery } from "@tanstack/react-query";
+import { FetchAllCoins } from "../../../../utils/showToken";
 
 const HomeLayout = () => {
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -18,6 +20,12 @@ const HomeLayout = () => {
 
   const blurhash =
     "L1N50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+
+  const { data: CoinsData, isLoading: isAllCoinsLoading } = useQuery({
+    queryKey: ["allCoins"],
+    queryFn: FetchAllCoins,
+  });
+  console.log(CoinsData);
   async function handleGetProfile() {
     setLoading(true);
 
@@ -50,6 +58,7 @@ const HomeLayout = () => {
       }
     }, [])
   );
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="relative">
